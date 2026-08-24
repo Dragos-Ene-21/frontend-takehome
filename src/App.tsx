@@ -32,7 +32,7 @@ function MarketWorkspace({
         ? b.activity - a.activity
         : a.market.localeCompare(b.market)
     );
-  }, [quotes, query]);
+  }, [quotes, query, sortMode]);
 
   useDesktopMarketFocus((marketId) => {
     if (visibleQuotes.some((quote) => quote.id === marketId)) {
