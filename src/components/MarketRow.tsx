@@ -1,10 +1,10 @@
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import type { MarketQuote } from '../types';
 
 interface MarketRowProps {
   quote: MarketQuote;
   selected: boolean;
-  onSelect: () => void;
+  onSelect: (marketId: string) => void;
 }
 
 const priceFormatter = new Intl.NumberFormat('en-GB', {
@@ -12,7 +12,7 @@ const priceFormatter = new Intl.NumberFormat('en-GB', {
   minimumFractionDigits: 2,
 });
 
-export function MarketRow({ quote, selected, onSelect }: MarketRowProps) {
+export const MarketRow = memo(function MarketRow({ quote, selected, onSelect }: MarketRowProps) {
   const renderCount = useRef(0);
   renderCount.current += 1;
 
@@ -20,7 +20,7 @@ export function MarketRow({ quote, selected, onSelect }: MarketRowProps) {
     <button
       className={`market-row ${selected ? 'market-row--selected' : ''}`}
       type="button"
-      onClick={onSelect}
+      onClick={() => onSelect(quote.id)}
       aria-pressed={selected}
       data-market-id={quote.id}
       data-render-count={renderCount.current}
@@ -52,5 +52,5 @@ export function MarketRow({ quote, selected, onSelect }: MarketRowProps) {
       </span>
     </button>
   );
-}
+});
 

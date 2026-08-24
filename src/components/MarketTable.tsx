@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import type { MarketQuote } from '../types';
 import { MarketRow } from './MarketRow';
 
@@ -7,7 +8,7 @@ interface MarketTableProps {
   onSelectMarket: (marketId: string) => void;
 }
 
-export function MarketTable({
+export const MarketTable = memo(function MarketTable({
   quotes,
   selectedMarketId,
   onSelectMarket,
@@ -37,11 +38,11 @@ export function MarketTable({
             key={quote.id}
             quote={quote}
             selected={selectedMarketId === quote.id}
-            onSelect={() => onSelectMarket(quote.id)}
+            onSelect={onSelectMarket}
           />
         ))}
       </div>
     </div>
   );
-}
+});
 
