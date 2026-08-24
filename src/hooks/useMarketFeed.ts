@@ -8,16 +8,18 @@ export function useMarketFeed(desk: Desk) {
   );
 
   useEffect(() => {
+    setQuotes(marketFeed.getSnapshot(desk));
+
     const unsubscribe = marketFeed.subscribe(desk, (update) => {
-      setQuotes(
-        quotes.map((quote) =>
+      setQuotes((prev) =>
+        prev.map((quote) =>
           quote.id === update.id ? { ...quote, ...update } : quote
         )
       );
     });
 
     return unsubscribe;
-  }, []);
+  }, [desk]);
 
   return quotes;
 }
