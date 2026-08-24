@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import type { Desk, MarketQuote } from '../types';
 import { desktopBridgeMock } from '../lib/desktopBridgeMock';
 import { marketFeed } from '../lib/marketFeed';
@@ -15,6 +16,13 @@ export function ShellDiagnostics({
   mounted,
   onMountedChange,
 }: ShellDiagnosticsProps) {
+  const [, forceRefresh] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => forceRefresh((n) => n + 1), 200);
+    return () => window.clearInterval(interval);
+  }, []);
+
   const lastQuote = quotes.at(-1);
 
   return (
