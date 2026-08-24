@@ -1,4 +1,4 @@
-import { memo, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import type { MarketQuote } from '../types';
 
 interface MarketRowProps {
@@ -12,13 +12,31 @@ const priceFormatter = new Intl.NumberFormat('en-GB', {
   minimumFractionDigits: 2,
 });
 
+type FlashDirection = 'up' | 'down' | null;
+
 export const MarketRow = memo(function MarketRow({ quote, selected, onSelect }: MarketRowProps) {
   const renderCount = useRef(0);
   renderCount.current += 1;
 
+  const prevMidRef = useRef((quote.bid + quote.ask) / 2);
+  const [flash, setFlash] = useState<FlashDirection>(null);
+
+  useEffect(() => {
+    const mid = (quote.bid + quote.ask) / 2;
+    const prevMid = prevMidRef.current;
+    if (mid !== prevMid) {
+      setFlash(mid > prevMid ? 'up' : 'down');
+      prevMidRef.current = mid;
+      const timeout = window.setTimeout(() => setFlash(null), 900);
+      return () => window.clearTimeout(timeout);
+    }
+  }, [quote.bid, quote.ask]);
+
   return (
     <button
-      className={`market-row ${selected ? 'market-row--selected' : ''}`}
+      className={`market-row ${selected ? 'market-row--selected' : ''} ${
+        flash ? `market-row--flash-${flash}` : ''
+      }`}
       type="button"
       onClick={() => onSelect(quote.id)}
       aria-pressed={selected}

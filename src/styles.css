@@ -657,11 +657,28 @@ h1 {
   }
 }
 
+.market-row--flash-up {
+  animation: flash-up 0.9s ease-out;
+}
+.market-row--flash-down {
+  animation: flash-down 0.9s ease-out;
+}
+@keyframes flash-up {
+  0% { background-color: rgba(111, 224, 173, 0.35); }
+  100% { background-color: transparent; }
+}
+@keyframes flash-down {
+  0% { background-color: rgba(242, 138, 131, 0.35); }
+  100% { background-color: transparent; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

@@ -14,8 +14,11 @@ export function CandidateEnhancement({
   return (
     <aside className="enhancement-slot" aria-label="Candidate enhancement">
       <span className="eyebrow">Part 2</span>
-      <strong>Your product improvement goes here</strong>
-      <p>Keep it small, useful, and intentional.</p>
+      <strong>Price movement indicator</strong>
+      <p>
+        Rows briefly flash green or red when a bid/ask update moves the
+        market's mid price, with a matching screen-reader announcement.
+      </p>
     </aside>
   );
 }
